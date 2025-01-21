@@ -1,0 +1,178 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Arial", sans-serif;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  color: #333;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.quiz-app {
+  width: 100%;
+  max-width: 700px;
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.app-header {
+  background: #4c83ff;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 4px solid #003d99;
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.logo {
+  height: 20px; /* Smaller height for logo */
+  width: auto; /* Keeps the aspect ratio intact */
+  max-width: 40px; /* Optional: limits the width to make sure it doesn't become too wide */
+  object-fit: contain; /* Ensures the logo doesn't get distorted */
+}
+
+.app-header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 5px;
+}
+
+.app-header p {
+  font-size: 1rem;
+  color: #e0e0e0;
+}
+
+/* Progress Bar */
+.progress-bar {
+  height: 5px;
+  width: 100%;
+  background: #f0f0f0;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background: #4c83ff;
+  width: 0%;
+  transition: width 0.3s ease-in-out;
+}
+
+/* Question Box */
+.question-box {
+  padding: 20px;
+  text-align: center;
+}
+
+.question-box p {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+/* Options */
+.options-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  padding: 20px;
+}
+
+.options-container button {
+  background: #f8f8f8;
+  color: #333;
+  padding: 15px;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.options-container button:hover {
+  background: #4c83ff;
+  color: #fff;
+}
+
+.options-container button.correct {
+  background: #28a745 !important;
+  color: #fff;
+}
+
+.options-container button.incorrect {
+  background: #dc3545 !important;
+  color: #fff;
+}
+
+/* Navigation */
+.navigation {
+  display: flex;
+  justify-content: flex-end;
+  padding: 20px;
+}
+
+.navigation .btn {
+  background: #4c83ff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.navigation .btn:disabled {
+  background: #ddd;
+  cursor: not-allowed;
+}
+
+.navigation .btn:hover:enabled {
+  background: #003d99;
+}
+
+/* Results Section */
+.hidden {
+  display: none;
+}
+
+#results {
+  padding: 40px 20px;
+  text-align: center;
+}
+
+#results h2 {
+  font-size: 2rem;
+  color: #4c83ff;
+  margin-bottom: 10px;
+}
+
+#results p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+/* Footer */
+.app-footer {
+  background: #4c83ff;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  border-top: 4px solid #003d99;
+  font-size: 0.9rem;
+}

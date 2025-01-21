@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="quiz-app">
+      <!-- Header Section -->
+      <header class="app-header">
+        <div class="logo-container">
+          <img
+            src="quiz.png"
+            alt="Quiz Logo"
+            class="logo"
+            style="width: 150px; height: 150px; object-fit: contain"
+          />
+
+          <h1>Quiz App</h1>
+        </div>
+        <p>Challenge yourself and test your knowledge!</p>
+      </header>
+
+      <!-- Main Quiz Section -->
+      <main>
+        <div id="quiz-container">
+          <!-- Progress Bar -->
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
+
+          <!-- Question Area -->
+          <div class="question-box">
+            <p id="question-text"></p>
+          </div>
+
+          <!-- Answer Buttons -->
+          <div class="options-container">
+            <!-- Buttons will be dynamically added -->
+          </div>
+
+          <!-- Navigation -->
+          <div class="navigation">
+            <button id="next-btn" class="btn" disabled>Next</button>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden">
+          <h2>Congratulations!</h2>
+          <p>
+            You scored <span id="score"></span> out of <span id="total"></span>.
+          </p>
+          <button id="restart-btn" class="btn">Restart Quiz</button>
+        </div>
+      </main>
+
+      <!-- Footer Section -->
+      <footer class="app-footer">
+        <p>&copy; 2024 QuizMaster. Designed with ❤️ by Kritika</p>
+      </footer>
+    </div>
+
+    <script>
+      // Sample questions and answers
+      const questions = [
+        {
+          question: "What is the capital of India?",
+          options: ["Lucknow", "Mumbai", "New Delhi", "Haryana"],
+          correct: 2, // Index of the correct answer
+        },
+        {
+          question: "Which planet is known as the Red Planet?",
+          options: ["Earth", "Mars", "Jupiter", "Saturn"],
+          correct: 1,
+        },
+        // Add more questions here...
+      ];
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+
+      // Elements
+      const questionText = document.getElementById("question-text");
+      const optionsContainer = document.querySelector(".options-container");
+      const nextButton = document.getElementById("next-btn");
+      const resultsSection = document.getElementById("results");
+      const scoreSpan = document.getElementById("score");
+      const totalSpan = document.getElementById("total");
+
+      // Load Question Function
+      function loadQuestion() {
+        const currentQuestion = questions[currentQuestionIndex];
+        questionText.textContent = currentQuestion.question;
+
+        optionsContainer.innerHTML = ""; // Clear previous options
+
+        currentQuestion.options.forEach((option, index) => {
+          const button = document.createElement("button");
+          button.textContent = option;
+          button.classList.add("btn");
+          button.onclick = () => checkAnswer(index);
+          optionsContainer.appendChild(button);
+        });
+
+        nextButton.disabled = true; // Disable the next button until an answer is selected
+      }
+
+      // Check Answer Function
+      function checkAnswer(selectedIndex) {
+        const currentQuestion = questions[currentQuestionIndex];
+        const buttons = optionsContainer.querySelectorAll("button");
+
+        // Highlight correct and incorrect answers
+        if (selectedIndex === currentQuestion.correct) {
+          buttons[selectedIndex].classList.add("correct");
+          score++;
+        } else {
+          buttons[selectedIndex].classList.add("incorrect");
+          buttons[currentQuestion.correct].classList.add("correct");
+        }
+
+        nextButton.disabled = false; // Enable the next button after an answer is selected
+      }
+
+      // Next Button Function
+      nextButton.onclick = () => {
+        currentQuestionIndex++;
+
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      };
+
+      // Show Results Function
+      function showResults() {
+        scoreSpan.textContent = score;
+        totalSpan.textContent = questions.length;
+        resultsSection.classList.remove("hidden");
+        document.querySelector("main").classList.add("hidden");
+      }
+
+      // Restart Quiz Function
+      document.getElementById("restart-btn").onclick = () => {
+        score = 0;
+        currentQuestionIndex = 0;
+        resultsSection.classList.add("hidden");
+        document.querySelector("main").classList.remove("hidden");
+        loadQuestion();
+      };
+
+      // Initial Load
+      loadQuestion();
+    </script>
+  </body>
+</html>
