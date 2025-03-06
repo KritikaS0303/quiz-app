@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Quiz App</title>
+    <style>
+      /* CSS Variables for easy theming */
+      :root {
+        --primary-color: #3b3f48;
+        --accent-color: #0775a4;
+        --background-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        --light-bg: #fff;
+        --text-color: #333;
+      }
+
+      /* General Reset */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+  font-family: "Arial", sans-serif;
+  background: url('backg.jpg') no-repeat center center fixed;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+
+      .login-container {
+        background: var(--light-bg);
+        width: 100%;
+        max-width: 450px;
+        padding: 50px;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        animation: fadeIn 0.8s ease-in;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(-10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .login-container h2 {
+        color: var(--primary-color);
+        font-size: 2rem;
+        margin-bottom: 20px;
+      }
+
+      .login-container p {
+        font-size: 1.1rem;
+        color: var(--text-color);
+        margin-bottom: 30px;
+      }
+
+      .login-container input {
+        width: 100%;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        border: 2px solid #ccc;
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border 0.3s ease;
+      }
+
+      .login-container input:focus {
+        border-color: var(--accent-color);
+        outline: none;
+      }
+
+      .login-container button {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background 0.3s ease;
+        width: 100%;
+      }
+
+      .login-container button:hover {
+        background: var(--accent-color);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 500px) {
+        .login-container {
+          padding: 30px;
+        }
+        .login-container h2 {
+          font-size: 1.8rem;
+        }
+        .login-container p {
+          font-size: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="login-container">
+      <h2>Welcome to Quiz App</h2>
+      <p>Please enter your name to begin:</p>
+      <input type="text" id="username" placeholder="Your Name" />
+      <button id="start-btn">Start Quiz</button>
+    </div>
+    <script>
+      document.getElementById("start-btn").addEventListener("click", function () {
+        const username = document.getElementById("username").value.trim();
+        if (username !== "") {
+          // Save the username in localStorage
+          localStorage.setItem("quizUser", username);
+          // Redirect to the quiz page
+          window.location.href = "index.html";
+        } else {
+          alert("Please enter your name.");
+        }
+      });
+    </script>
+  </body>
+</html>

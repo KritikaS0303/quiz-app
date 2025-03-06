@@ -1,3 +1,14 @@
+/* CSS Variables for Easy Theming */
+:root {
+  --primary-color: #3b3f48;
+  --accent-color: #0775a4;
+  --success-color: #28a745;
+  --error-color: #dc3545;
+  --light-bg: #f8f8f8;
+  --body-bg: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+  --text-color: #333333;
+}
+
 /* General Reset */
 * {
   margin: 0;
@@ -7,8 +18,8 @@
 
 body {
   font-family: "Arial", sans-serif;
-  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-  color: #333;
+  background: var(--body-bg);
+  color: var(--text-color);
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -16,6 +27,7 @@ body {
   padding: 20px;
 }
 
+/* Quiz Container */
 .quiz-app {
   width: 100%;
   max-width: 700px;
@@ -23,15 +35,28 @@ body {
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.8s ease-in;
+}
+
+/* Fade In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Header */
 .app-header {
-  background: #4c83ff;
+  background: var(--primary-color);
   color: #fff;
   padding: 20px;
   text-align: center;
-  border-bottom: 4px solid #003d99;
+  border-bottom: 4px solid #070707;
 }
 
 .logo-container {
@@ -43,10 +68,10 @@ body {
 }
 
 .logo {
-  height: 20px; /* Smaller height for logo */
-  width: auto; /* Keeps the aspect ratio intact */
-  max-width: 40px; /* Optional: limits the width to make sure it doesn't become too wide */
-  object-fit: contain; /* Ensures the logo doesn't get distorted */
+  height: 40px; /* Increased size for better visibility */
+  width: auto;
+  max-width: 60px;
+  object-fit: contain;
 }
 
 .app-header h1 {
@@ -65,11 +90,14 @@ body {
   width: 100%;
   background: #f0f0f0;
   position: relative;
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 15px;
 }
 
 .progress {
   height: 100%;
-  background: #4c83ff;
+  background: var(--accent-color);
   width: 0%;
   transition: width 0.3s ease-in-out;
 }
@@ -78,6 +106,8 @@ body {
 .question-box {
   padding: 20px;
   text-align: center;
+  background: #f9f9f9;
+  border-bottom: 1px solid #ddd;
 }
 
 .question-box p {
@@ -94,28 +124,31 @@ body {
 }
 
 .options-container button {
-  background: #f8f8f8;
-  color: #333;
+  background: var(--light-bg);
+  color: var(--text-color);
   padding: 15px;
   border: 2px solid #ccc;
   border-radius: 5px;
   font-size: 1rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background 0.3s, color 0.3s, border-color 0.3s;
 }
 
 .options-container button:hover {
-  background: #4c83ff;
+  background: var(--primary-color);
   color: #fff;
+  border-color: var(--primary-color);
 }
 
 .options-container button.correct {
-  background: #28a745 !important;
+  background: var(--success-color) !important;
+  border-color: var(--success-color) !important;
   color: #fff;
 }
 
 .options-container button.incorrect {
-  background: #dc3545 !important;
+  background: var(--error-color) !important;
+  border-color: var(--error-color) !important;
   color: #fff;
 }
 
@@ -127,7 +160,7 @@ body {
 }
 
 .navigation .btn {
-  background: #4c83ff;
+  background: var(--primary-color);
   color: #fff;
   padding: 10px 20px;
   border: none;
@@ -143,7 +176,7 @@ body {
 }
 
 .navigation .btn:hover:enabled {
-  background: #003d99;
+  background: var(--accent-color);
 }
 
 /* Results Section */
@@ -158,7 +191,7 @@ body {
 
 #results h2 {
   font-size: 2rem;
-  color: #4c83ff;
+  color: var(--accent-color);
   margin-bottom: 10px;
 }
 
@@ -169,10 +202,30 @@ body {
 
 /* Footer */
 .app-footer {
-  background: #4c83ff;
+  background: var(--primary-color);
   color: #fff;
   padding: 10px;
   text-align: center;
-  border-top: 4px solid #003d99;
+  border-top: 4px solid var(--accent-color);
   font-size: 0.9rem;
+}
+
+/* Responsive Media Query */
+@media (max-width: 600px) {
+  .quiz-app {
+    max-width: 100%;
+  }
+
+  .app-header h1 {
+    font-size: 1.6rem;
+  }
+
+  .question-box p {
+    font-size: 1.3rem;
+  }
+
+  .options-container button {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
 }

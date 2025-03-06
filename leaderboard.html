@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaderboard - Quiz App</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .leaderboard-container {
+        max-width: 600px;
+        width: 100%;
+        background: #fff;
+        border-radius: 10px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+      }
+      h2 {
+        text-align: center;
+        color: #0775a4;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      table th,
+      table td {
+        padding: 10px;
+        border: 1px solid #ccc;
+        text-align: center;
+      }
+      table th {
+        background: #3b3f48;
+        color: #fff;
+      }
+      .btn {
+        display: block;
+        margin: 20px auto;
+        padding: 10px 20px;
+        background: #3b3f48;
+        color: #fff;
+        text-decoration: none;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background: #0775a4;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="leaderboard-container">
+      <h2>Leaderboard</h2>
+      <table id="leaderboard-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Leaderboard entries will be populated here -->
+        </tbody>
+      </table>
+      <button class="btn" onclick="goBack()">Back to Quiz</button>
+    </div>
+
+    <script>
+      // Retrieve leaderboard data from localStorage
+      let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+      
+      // Sort entries by score descending
+      leaderboard.sort((a, b) => b.score - a.score);
+
+      // Populate the table with leaderboard entries
+      const tbody = document.querySelector("#leaderboard-table tbody");
+      leaderboard.forEach((entry, index) => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entry.name}</td>
+          <td>${entry.score}</td>
+          <td>${entry.date}</td>
+        `;
+        tbody.appendChild(row);
+      });
+
+      function goBack() {
+        window.location.href = "index.html"; // Adjust if your quiz page has a different filename
+      }
+    </script>
+  </body>
+</html>
