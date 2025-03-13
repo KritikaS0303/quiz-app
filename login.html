@@ -2,15 +2,23 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login - Quiz App</title>
+    <title>Quiz App</title>
+    <link rel="stylesheet" href="styles.css" />
     <style>
       /* CSS Variables for easy theming */
       :root {
         --primary-color: #3b3f48;
         --accent-color: #0775a4;
+        --success-color: #28a745;
+        --error-color: #dc3545;
+        --light-bg: #f8f8f8;
         --background-gradient: linear-gradient(135deg, #f5f7fa, #c3cfe2);
-        --light-bg: #fff;
         --text-color: #333;
       }
 
@@ -22,25 +30,24 @@
       }
 
       body {
-  font-family: "Arial", sans-serif;
-  background: url('backg.jpg') no-repeat center center fixed;
-  background-size: cover;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-}
+        font-family: "Arial", sans-serif;
+        background: url('backg.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: var(--text-color);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
 
-
-      .login-container {
-        background: var(--light-bg);
+      .quiz-app {
         width: 100%;
-        max-width: 450px;
-        padding: 50px;
+        max-width: 700px;
+        background: #fff;
         border-radius: 10px;
+        overflow: hidden;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-        text-align: center;
         animation: fadeIn 0.8s ease-in;
       }
 
@@ -55,82 +62,452 @@
         }
       }
 
-      .login-container h2 {
-        color: var(--primary-color);
-        font-size: 2rem;
-        margin-bottom: 20px;
+      /* Header */
+      .app-header {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 20px;
+        text-align: center;
+        border-bottom: 4px solid #070707;
       }
 
-      .login-container p {
-        font-size: 1.1rem;
-        color: var(--text-color);
-        margin-bottom: 30px;
+      .logo-container {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-bottom: 10px;
       }
 
-      .login-container input {
+      .logo {
+        width: 150px;
+        height: 150px;
+        object-fit: contain;
+      }
+
+      .app-header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+      }
+
+      .app-header p {
+        font-size: 1rem;
+        color: #e0e0e0;
+      }
+
+      /* Progress Bar */
+      .progress-bar {
+        height: 5px;
         width: 100%;
-        padding: 12px 15px;
+        background: #f0f0f0;
+        position: relative;
+        border-radius: 3px;
+        overflow: hidden;
+        margin-bottom: 15px;
+      }
+
+      .progress {
+        height: 100%;
+        background: var(--accent-color);
+        width: 0%;
+        transition: width 0.3s ease-in-out;
+      }
+
+      /* Timer */
+      #timer {
+        text-align: center;
+        font-size: 1.2rem;
         margin-bottom: 20px;
+        color: var(--primary-color);
+      }
+
+      #timer span {
+        font-weight: bold;
+      }
+
+      /* Question Box */
+      .question-box {
+        padding: 20px;
+        text-align: center;
+      }
+
+      .question-box p {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+
+      /* Options */
+      .options-container {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        padding: 20px;
+      }
+
+      .options-container button {
+        background: var(--light-bg);
+        color: var(--text-color);
+        padding: 15px;
         border: 2px solid #ccc;
         border-radius: 5px;
         font-size: 1rem;
-        transition: border 0.3s ease;
+        cursor: pointer;
+        transition: all 0.3s ease;
       }
 
-      .login-container input:focus {
-        border-color: var(--accent-color);
-        outline: none;
-      }
-
-      .login-container button {
+      .options-container button:hover {
         background: var(--primary-color);
         color: #fff;
-        padding: 12px 20px;
+      }
+
+      .options-container button.correct {
+        background: var(--success-color) !important;
+        color: #fff;
+      }
+
+      .options-container button.incorrect {
+        background: var(--error-color) !important;
+        color: #fff;
+      }
+
+      /* Navigation */
+      .navigation {
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px;
+      }
+
+      .navigation .btn {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 10px 20px;
         border: none;
         border-radius: 5px;
         font-size: 1rem;
         cursor: pointer;
-        transition: background 0.3s ease;
-        width: 100%;
+        transition: background 0.3s;
       }
 
-      .login-container button:hover {
+      .navigation .btn:disabled {
+        background: #ddd;
+        cursor: not-allowed;
+      }
+
+      .navigation .btn:hover:enabled {
         background: var(--accent-color);
       }
 
-      /* Responsive Design */
-      @media (max-width: 500px) {
-        .login-container {
-          padding: 30px;
-        }
-        .login-container h2 {
-          font-size: 1.8rem;
-        }
-        .login-container p {
-          font-size: 1rem;
-        }
+      /* Results Section */
+      .hidden {
+        display: none;
+      }
+
+      #results {
+        padding: 40px 20px;
+        text-align: center;
+      }
+
+      #results h2 {
+        font-size: 2rem;
+        color: var(--accent-color);
+        margin-bottom: 10px;
+      }
+
+      #results p {
+        font-size: 1.2rem;
+        margin-bottom: 20px;
+      }
+
+      /* Social Share Buttons */
+      .social-share {
+        margin: 5px 0;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+      }
+      .social-share a {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 2px 5px;
+        border-radius: 1px;
+        text-decoration: none;
+        transition: background 0.3s;
+      }
+      .social-share a:hover {
+        background: var(--accent-color);
+      }
+
+      #restart-btn {
+  background: var(--primary-color); /* Uses your primary color variable */
+  color: #fff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin-top: 20px;
+  display: inline-block;
+}
+
+#restart-btn:hover {
+  background: var(--accent-color); /* Uses your accent color variable on hover */
+}
+
+      /* Footer */
+      .app-footer {
+        background: var(--primary-color);
+        color: #fff;
+        padding: 10px;
+        text-align: center;
+        border-top: 4px solid var(--accent-color);
+        font-size: 0.9rem;
       }
     </style>
   </head>
   <body>
-    <div class="login-container">
-      <h2>Welcome to Quiz App</h2>
-      <p>Please enter your name to begin:</p>
-      <input type="text" id="username" placeholder="Your Name" />
-      <button id="start-btn">Start Quiz</button>
+    <div class="quiz-app">
+      <!-- Header Section -->
+      <header class="app-header">
+        <div class="logo-container">
+          <img src="quiz.png" alt="Quiz Logo" class="logo" />
+          <h1>Quiz App</h1>
+        </div>
+        <!-- User Greeting -->
+        <p id="user-greeting"></p>
+        <p>Challenge yourself and test your knowledge!</p>
+      </header>
+
+      <!-- Main Quiz Section -->
+      <main>
+        <div id="quiz-container">
+          <!-- Progress Bar -->
+          <div class="progress-bar">
+            <div class="progress"></div>
+          </div>
+
+          <!-- Timer -->
+          <p id="timer">Time Left: <span id="time">15</span>s</p>
+
+          <!-- Question Area -->
+          <div class="question-box">
+            <p id="question-text"></p>
+          </div>
+
+          <!-- Answer Buttons -->
+          <div class="options-container">
+            <!-- Buttons will be dynamically added -->
+          </div>
+
+          <!-- Navigation -->
+          <div class="navigation">
+            <button id="next-btn" class="btn" disabled>Next</button>
+          </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="hidden">
+          <h2>Congratulations!</h2>
+          <p>
+            <span id="user-result"></span>, you scored <span id="score"></span> out of 50.
+          </p>
+          <!-- Social Share Buttons -->
+          <div class="social-share">
+            <a id="share-twitter" target="_blank" href="">
+              <i class="fab fa-twitter"></i> 
+            </a>
+            <a id="share-facebook" target="_blank" href="">
+              <i class="fab fa-facebook"></i> 
+            </a>
+          </div>
+          
+          <!-- Redirect to login page -->
+          <button id="restart-btn" class="btn">Return to Login</button>
+        </div>
+      </main>
+
+      <!-- Footer Section -->
+      <footer class="app-footer">
+        <p>&copy; 2024 QuizApp. Designed with ❤️ by Kritika</p>
+      </footer>
     </div>
+
+    <!-- Audio Elements for Correct/Incorrect Sound Effects and Background Music -->
+    <audio id="correct-sound" src="correct-choice-43861.mp3"></audio>
+    <audio id="incorrect-sound" src="wrong-47985.mp3"></audio>
+    <audio id="bg-music" src="tickingbuzzer-75859.mp3" loop></audio>
+
     <script>
-      document.getElementById("start-btn").addEventListener("click", function () {
-        const username = document.getElementById("username").value.trim();
-        if (username !== "") {
-          // Save the username in localStorage
-          localStorage.setItem("quizUser", username);
-          // Redirect to the quiz page
-          window.location.href = "index.html";
-        } else {
-          alert("Please enter your name.");
-        }
+      // Background Music Setup (hidden control)
+      const bgMusic = document.getElementById("bg-music");
+      bgMusic.volume = 0.3;
+      bgMusic.play().catch(err => {
+        console.log("Autoplay blocked.");
       });
+
+      // Retrieve and display user name from localStorage
+      const userName = localStorage.getItem("quizUser") || "User";
+      document.getElementById("user-greeting").textContent = "Hello, " + userName + "!";
+
+      // Get audio elements for sound effects
+      const correctSound = document.getElementById("correct-sound");
+      const incorrectSound = document.getElementById("incorrect-sound");
+
+      // Sample questions and answers
+      const questions = [
+        {
+          question: "What is the capital of India?",
+          options: ["Lucknow", "Mumbai", "New Delhi", "Haryana"],
+          correct: 2,
+        },
+        {
+          question: "Which planet is known as the Red Planet?",
+          options: ["Earth", "Mars", "Jupiter", "Saturn"],
+          correct: 1,
+        },
+        {
+          question: "Who is the prime minister of India in 2023?",
+          options: ["Rahul Gandhi", "Dr Manmohan Singh", "Yogi Adityanath", "Narendra Modi"],
+          correct: 3,
+        },
+        {
+          question: "What is the capital of Russia?",
+          options: ["Novosibirsk", "Moscow", "Kazan", "Saint Petersburg"],
+          correct: 1,
+        },
+        {
+          question: "Which river is known as the 'Ganga of the South'?",
+          options: ["Krishna", "Cauvery", "Narmada", "Godavari"],
+          correct: 3,
+        },
+      ];
+
+      let currentQuestionIndex = 0;
+      let score = 0;
+      let timerInterval;
+
+      // Elements
+      const questionText = document.getElementById("question-text");
+      const optionsContainer = document.querySelector(".options-container");
+      const nextButton = document.getElementById("next-btn");
+      const resultsSection = document.getElementById("results");
+      const scoreSpan = document.getElementById("score");
+      const progressBar = document.querySelector(".progress");
+      const timerElement = document.getElementById("time");
+      const quizContainer = document.getElementById("quiz-container");
+      const userResultSpan = document.getElementById("user-result");
+
+      // Load Question Function
+      function loadQuestion() {
+        clearInterval(timerInterval);
+        timerElement.textContent = "15";
+        startTimer();
+
+        const currentQuestion = questions[currentQuestionIndex];
+        questionText.textContent = currentQuestion.question;
+        optionsContainer.innerHTML = ""; // Clear previous options
+
+        currentQuestion.options.forEach((option, index) => {
+          const button = document.createElement("button");
+          button.textContent = option;
+          button.classList.add("btn");
+          button.onclick = () => checkAnswer(index);
+          optionsContainer.appendChild(button);
+        });
+
+        nextButton.disabled = true;
+        progressBar.style.width = ((currentQuestionIndex + 1) / questions.length) * 100 + "%";
+      }
+
+      // Timer Function
+      function startTimer() {
+        let timeLeft = 15;
+        timerElement.textContent = timeLeft;
+        timerInterval = setInterval(() => {
+          if (timeLeft > 0) {
+            timeLeft--;
+            timerElement.textContent = timeLeft;
+          } else {
+            clearInterval(timerInterval);
+            disableOptions();
+            nextButton.disabled = false;
+          }
+        }, 1000);
+      }
+
+      // Disable options if time runs out
+      function disableOptions() {
+        const buttons = optionsContainer.querySelectorAll("button");
+        buttons.forEach((btn) => (btn.disabled = true));
+      }
+
+      // Check Answer Function
+      function checkAnswer(selectedIndex) {
+        clearInterval(timerInterval);
+        const currentQuestion = questions[currentQuestionIndex];
+        const buttons = optionsContainer.querySelectorAll("button");
+
+        if (selectedIndex === currentQuestion.correct) {
+          buttons[selectedIndex].classList.add("correct");
+          score += 10; // Add 10 marks for each correct answer
+          correctSound.play();
+        } else {
+          buttons[selectedIndex].classList.add("incorrect");
+          buttons[currentQuestion.correct].classList.add("correct");
+          incorrectSound.play();
+        }
+
+        buttons.forEach((btn) => (btn.disabled = true));
+        nextButton.disabled = false;
+      }
+
+      // Next Button Function
+      nextButton.onclick = () => {
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+          loadQuestion();
+        } else {
+          showResults();
+        }
+      };
+
+      // Show Results Function
+      function showResults() {
+        // Turn off background music before showing results
+        if (!bgMusic.paused) {
+          bgMusic.pause();
+        }
+
+        // Save leaderboard entry
+        const entry = {
+          name: userName,
+          score: score,
+          date: new Date().toLocaleString()
+        };
+
+        let leaderboard = JSON.parse(localStorage.getItem("leaderboard")) || [];
+        leaderboard.push(entry);
+        localStorage.setItem("leaderboard", JSON.stringify(leaderboard));
+
+        scoreSpan.textContent = score;
+        userResultSpan.textContent = userName;
+        quizContainer.classList.add("hidden");
+        resultsSection.classList.remove("hidden");
+
+        // Set up social share links
+        const shareText = encodeURIComponent(`I scored ${score} out of 50 on Quiz App! Can you beat me?`);
+        const shareUrl = encodeURIComponent(window.location.href);
+        document.getElementById("share-twitter").href = `https://twitter.com/intent/tweet?text=${shareText}&url=${shareUrl}`;
+        document.getElementById("share-facebook").href = `https://www.facebook.com/sharer/sharer.php?u=${shareUrl}`;
+      }
+
+      // Redirect to login page on result button click
+      document.getElementById("restart-btn").onclick = () => {
+        window.location.href = "index.html";
+      };
+
+      // Initial Load
+      loadQuestion();
     </script>
   </body>
 </html>
